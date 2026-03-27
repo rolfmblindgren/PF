@@ -1,0 +1,52 @@
+# Overgang fra ICD-10-typer til ICD-11-trekk
+
+Dette er en liten Shiny-app som fungerer som et pedagogisk overgangsverktøy mellom personlighetsforstyrrelser i ICD-10 og en trekkbasert modell som ligner ICD-11.
+
+## Krav
+
+- R
+- Pakkene `shiny`, `dplyr` og `ggplot2`
+
+## Start appen
+
+Kjør fra prosjektmappen:
+
+```r
+shiny::runApp()
+```
+
+eller:
+
+```sh
+Rscript -e "shiny::runApp()"
+```
+
+## Kalibrering av vekter
+
+Det ligger også et skript for å teste og tune vektene mot faglige ankerprofiler:
+
+```sh
+Rscript calibrate.R
+```
+
+Skriptet gjør dette:
+
+- evaluerer dagens vekter mot et sett med ankerprofiler
+- justerer vektene automatisk med random search mot en tapsfunksjon
+- skriver ut nye vekter og en enkel oversikt over topp-1-fordeling på hele `7^5`-gridet
+- lagrer rapportfiler i [calibration_outputs](/Users/roffe/Documents/prosjekter/R/pf/calibration_outputs)
+
+Hvis du vil ta i bruk de tunede vektene i appen, kan du kopiere [calibration_outputs/tuned_weights.csv](/Users/roffe/Documents/prosjekter/R/pf/calibration_outputs/tuned_weights.csv) til [tuned_weights.csv](/Users/roffe/Documents/prosjekter/R/pf/tuned_weights.csv). Appen leser denne filen automatisk hvis den finnes.
+
+## Hva appen gjør
+
+- Brukeren setter fem trekkdimensjoner på skalaen 0-6.
+- Appen bruker disse som en ICD-11-lignende trekkprofil.
+- Modellen beregner en profilsamsvarsskår for hver ICD-10-type.
+- `lambda` justerer hvor sterk kontrasten blir mellom profiler som ellers ligger nær hverandre.
+
+## Viktig
+
+Vektene i modellen er en pedagogisk faglig forenkling, ikke en offisiell konverteringsnøkkel mellom ICD-10 og ICD-11.
+
+Modellen er kun et pedagogisk verktøy og skal ikke brukes diagnostisk.
