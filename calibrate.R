@@ -10,24 +10,36 @@ anchor_profiles <- do.call(
     data.frame(profile_id = "borderline_core", neg = 6, det = 2, ant = 3, dis = 6, psy = 0, expected_top1 = "F60.3", acceptable_top3 = "F60.3|F60.4|F60.7", forbidden_top1 = "F60.5", weight = 3, stringsAsFactors = FALSE),
     data.frame(profile_id = "histrionisk_core", neg = 2, det = 1, ant = 5, dis = 5, psy = 0, expected_top1 = "F60.4", acceptable_top3 = "F60.4|F60.2|F60.3", forbidden_top1 = "F60.5", weight = 2, stringsAsFactors = FALSE),
     data.frame(profile_id = "tvangspreget_core", neg = 3, det = 1, ant = 1, dis = 2, psy = 0, expected_top1 = "F60.5", acceptable_top3 = "F60.5|F60.6|F60.7", forbidden_top1 = "F60.2", weight = 3, stringsAsFactors = FALSE),
+    data.frame(profile_id = "tvangspreget_not_histrionisk", neg = 3, det = 2, ant = 0, dis = 1, psy = 0, expected_top1 = "F60.5", acceptable_top3 = "F60.5|F60.7|F60.6", forbidden_top1 = "F60.4", weight = 3, stringsAsFactors = FALSE),
+    data.frame(profile_id = "orderly_constrained", neg = 2, det = 3, ant = 0, dis = 0, psy = 0, expected_top1 = "F60.5", acceptable_top3 = "F60.5|F60.6|F60.1", forbidden_top1 = "F60.4", weight = 2, stringsAsFactors = FALSE),
     data.frame(profile_id = "unnvikende_core", neg = 5, det = 6, ant = 0, dis = 0, psy = 0, expected_top1 = "F60.6", acceptable_top3 = "F60.6|F60.7|F60.1", forbidden_top1 = "F60.2", weight = 3, stringsAsFactors = FALSE),
     data.frame(profile_id = "avhengig_core", neg = 4, det = 3, ant = 0, dis = 0, psy = 0, expected_top1 = "F60.7", acceptable_top3 = "F60.7|F60.6|F60.3", forbidden_top1 = "F60.2", weight = 3, stringsAsFactors = FALSE),
     data.frame(profile_id = "paranoid_vs_dyssosial", neg = 2, det = 1, ant = 6, dis = 4, psy = 0, expected_top1 = "F60.0", acceptable_top3 = "F60.0|F60.2|F60.4", forbidden_top1 = "F60.6", weight = 2, stringsAsFactors = FALSE),
     data.frame(profile_id = "unnvikende_vs_avhengig", neg = 5, det = 5, ant = 0, dis = 0, psy = 0, expected_top1 = "F60.6", acceptable_top3 = "F60.6|F60.7|F60.1", forbidden_top1 = "F60.2", weight = 2, stringsAsFactors = FALSE),
     data.frame(profile_id = "tvangspreget_vs_borderline", neg = 3, det = 1, ant = 1, dis = 1, psy = 0, expected_top1 = "F60.5", acceptable_top3 = "F60.5|F60.6|F60.7", forbidden_top1 = "F60.3", weight = 3, stringsAsFactors = FALSE),
-    data.frame(profile_id = "histrionisk_vs_dyssosial", neg = 5, det = 0, ant = 1, dis = 1, psy = 0, expected_top1 = "F60.4", acceptable_top3 = "F60.4|F60.2|F60.3", forbidden_top1 = "F60.2", weight = 2, stringsAsFactors = FALSE),
+    data.frame(profile_id = "histrionisk_vs_dyssosial", neg = 5, det = 0, ant = 1, dis = 1, psy = 0, expected_top1 = "F60.4", acceptable_top3 = "F60.4|F60.2|F60.3", forbidden_top1 = "F60.2|F60.5", weight = 3, stringsAsFactors = FALSE),
+    data.frame(profile_id = "histrionisk_not_tvangspreget", neg = 4, det = 0, ant = 2, dis = 2, psy = 0, expected_top1 = "F60.4", acceptable_top3 = "F60.4|F60.3|F60.2", forbidden_top1 = "F60.5", weight = 3, stringsAsFactors = FALSE),
+    data.frame(profile_id = "dramatic_but_orderly", neg = 4, det = 0, ant = 2, dis = 1, psy = 0, expected_top1 = "F60.4", acceptable_top3 = "F60.4|F60.3|F60.0", forbidden_top1 = "F60.5", weight = 2, stringsAsFactors = FALSE),
     data.frame(profile_id = "mixed_externalizing", neg = 3, det = 1, ant = 5, dis = 5, psy = 0, expected_top1 = NA, acceptable_top3 = "F60.3|F60.4|F60.2", forbidden_top1 = "F60.5", weight = 2, stringsAsFactors = FALSE),
-    data.frame(profile_id = "flat_profile", neg = 3, det = 3, ant = 3, dis = 3, psy = 3, expected_top1 = NA, acceptable_top3 = "F60.3|F60.4|F60.5", forbidden_top1 = "", weight = 1, stringsAsFactors = FALSE)
+    data.frame(profile_id = "flat_profile", neg = 3, det = 3, ant = 3, dis = 3, psy = 3, expected_top1 = NA, acceptable_top3 = "F60.3|F60.4|F60.5", forbidden_top1 = "F21", weight = 3, stringsAsFactors = FALSE),
+    data.frame(profile_id = "midrange_without_psychosis", neg = 3, det = 3, ant = 3, dis = 3, psy = 1, expected_top1 = NA, acceptable_top3 = "F60.3|F60.4|F60.5", forbidden_top1 = "F21", weight = 3, stringsAsFactors = FALSE)
   )
 )
 
-evaluate_anchor <- function(anchor_row, weights_df, lambda = 1) {
+evaluate_anchor <- function(anchor_row, weights_df, tolerances_df, bias_df, lambda = 1) {
   traits <- as.numeric(anchor_row[trait_ids])
-  ranked <- rank_profile(traits = traits, lambda = lambda, weights_df = weights_df)
+  ranked <- rank_profile(
+    traits = traits,
+    lambda = lambda,
+    weights_df = weights_df,
+    tolerances_df = tolerances_df,
+    bias_df = bias_df
+  )
   top_codes <- ranked$kode[seq_len(min(3, nrow(ranked)))]
   expected_top1 <- anchor_row[["expected_top1"]]
   acceptable_top3 <- strsplit(anchor_row[["acceptable_top3"]], "\\|")[[1]]
   forbidden_top1 <- anchor_row[["forbidden_top1"]]
+  forbidden_top1_values <- if (nzchar(forbidden_top1)) strsplit(forbidden_top1, "\\|")[[1]] else character(0)
   case_weight <- as.numeric(anchor_row[["weight"]])
 
   penalty <- 0
@@ -46,7 +58,7 @@ evaluate_anchor <- function(anchor_row, weights_df, lambda = 1) {
     penalty <- penalty + 8
   }
 
-  if (nzchar(forbidden_top1) && identical(top_codes[1], forbidden_top1)) {
+  if (length(forbidden_top1_values) > 0 && top_codes[1] %in% forbidden_top1_values) {
     penalty <- penalty + 10
   }
 
@@ -66,10 +78,21 @@ evaluate_anchor <- function(anchor_row, weights_df, lambda = 1) {
   )
 }
 
-evaluate_weights <- function(weights_df, anchors = anchor_profiles, lambda = 1) {
+evaluate_weights <- function(weights_df, tolerances_df = tolerances, bias_df = bias, anchors = anchor_profiles, lambda = 1) {
   details <- do.call(
     rbind,
-    lapply(seq_len(nrow(anchors)), function(i) evaluate_anchor(anchors[i, , drop = FALSE], weights_df, lambda = lambda))
+    lapply(
+      seq_len(nrow(anchors)),
+      function(i) {
+        evaluate_anchor(
+          anchors[i, , drop = FALSE],
+          weights_df,
+          tolerances_df = tolerances_df,
+          bias_df = bias_df,
+          lambda = lambda
+        )
+      }
+    )
   )
 
   list(
@@ -78,20 +101,41 @@ evaluate_weights <- function(weights_df, anchors = anchor_profiles, lambda = 1) 
   )
 }
 
-objective_function <- function(x, anchors = anchor_profiles, lambda = 1, template = default_weights) {
-  weights_df <- weights_from_vector(x, template = template)
-  eval <- evaluate_weights(weights_df = weights_df, anchors = anchors, lambda = lambda)
+objective_function <- function(
+  x,
+  anchors = anchor_profiles,
+  lambda = 1,
+  weight_template = default_weights,
+  tolerance_template = default_tolerances,
+  bias_template = default_bias
+) {
+  weight_length <- length(weights_to_vector(weight_template))
+  tolerance_length <- length(tolerances_to_vector(tolerance_template))
+  weights_df <- weights_from_vector(x[seq_len(weight_length)], template = weight_template)
+  tolerances_df <- tolerances_from_vector(x[weight_length + seq_len(tolerance_length)], template = tolerance_template)
+  bias_df <- bias_from_vector(x[-seq_len(weight_length + tolerance_length)], template = bias_template)
+  eval <- evaluate_weights(
+    weights_df = weights_df,
+    tolerances_df = tolerances_df,
+    bias_df = bias_df,
+    anchors = anchors,
+    lambda = lambda
+  )
 
   # Mild regularization keeps weights from drifting too far from the hand-tuned starting point.
-  regularization <- 0.25 * sum((x - weights_to_vector(template))^2)
-  eval$loss + regularization
+  regularization <- 0.25 * sum((x[seq_len(weight_length)] - weights_to_vector(weight_template))^2)
+  tolerance_regularization <- 0.10 * sum((x[weight_length + seq_len(tolerance_length)] - tolerances_to_vector(tolerance_template))^2)
+  bias_regularization <- 0.05 * sum((x[-seq_len(weight_length + tolerance_length)] - bias_to_vector(bias_template))^2)
+  eval$loss + regularization + tolerance_regularization + bias_regularization
 }
 
 random_search_optimize <- function(
   initial_vector,
   anchors = anchor_profiles,
   lambda = 1,
-  template = default_weights,
+  weight_template = default_weights,
+  tolerance_template = default_tolerances,
+  bias_template = default_bias,
   iterations = 800,
   step_size = 0.12,
   seed = 123
@@ -99,13 +143,26 @@ random_search_optimize <- function(
   set.seed(seed)
 
   best_vector <- initial_vector
-  best_value <- objective_function(best_vector, anchors = anchors, lambda = lambda, template = template)
+  best_value <- objective_function(
+    best_vector,
+    anchors = anchors,
+    lambda = lambda,
+    weight_template = weight_template,
+    tolerance_template = tolerance_template
+  )
   accepted <- 0L
 
   for (i in seq_len(iterations)) {
     candidate <- best_vector + rnorm(length(best_vector), mean = 0, sd = step_size)
-    candidate <- pmin(pmax(candidate, 0), 1)
-    candidate_value <- objective_function(candidate, anchors = anchors, lambda = lambda, template = template)
+    candidate <- pmin(pmax(candidate, 0.02), 1)
+    candidate_value <- objective_function(
+      candidate,
+      anchors = anchors,
+      lambda = lambda,
+      weight_template = weight_template,
+      tolerance_template = tolerance_template,
+      bias_template = bias_template
+    )
 
     if (candidate_value < best_value) {
       best_vector <- candidate
@@ -121,6 +178,66 @@ random_search_optimize <- function(
     counts = c(`function` = iterations),
     accepted = accepted,
     method = "random_search"
+  )
+}
+
+multi_start_calibration <- function(
+  lambda_values = 1,
+  iterations = 4000,
+  step_sizes = c(0.04, 0.08, 0.12),
+  seeds = c(11, 22, 33, 44),
+  anchors = anchor_profiles,
+  template = default_weights
+) {
+  runs <- list()
+  idx <- 1L
+
+  for (lambda in lambda_values) {
+    for (step_size in step_sizes) {
+      for (seed in seeds) {
+        result <- run_calibration(
+          lambda = lambda,
+          iterations = iterations,
+          step_size = step_size,
+          seed = seed
+        )
+
+        runs[[idx]] <- list(
+          run_id = idx,
+          lambda = lambda,
+          step_size = step_size,
+          seed = seed,
+          loss = result$tuned$loss,
+          accepted = result$optim$accepted,
+          result = result
+        )
+        idx <- idx + 1L
+      }
+    }
+  }
+
+  summary <- do.call(
+    rbind,
+    lapply(runs, function(run) {
+      data.frame(
+        run_id = run$run_id,
+        lambda = run$lambda,
+        step_size = run$step_size,
+        seed = run$seed,
+        loss = run$loss,
+        accepted = run$accepted,
+        stringsAsFactors = FALSE
+      )
+    })
+  )
+
+  summary <- summary[order(summary$loss, -summary$accepted, summary$lambda, summary$step_size, summary$seed), ]
+  best <- runs[[summary$run_id[1]]]
+
+  list(
+    summary = summary,
+    runs = runs,
+    best = best
   )
 }
 
@@ -184,31 +301,54 @@ write_calibration_outputs <- function(result, output_dir = "calibration_outputs"
   write.csv(details, file.path(output_dir, "anchor_results.csv"), row.names = FALSE)
   write.csv(grid_comparison, file.path(output_dir, "grid_comparison.csv"), row.names = FALSE)
   save_weights(result$tuned_weights, file.path(output_dir, "tuned_weights.csv"))
+  save_tolerances(result$tuned_tolerances, file.path(output_dir, "tuned_tolerances.csv"))
+  save_bias(result$tuned_bias, file.path(output_dir, "tuned_bias.csv"))
 
   invisible(output_dir)
 }
 
+write_experiment_outputs <- function(experiment, output_dir = "calibration_outputs") {
+  if (!dir.exists(output_dir)) {
+    dir.create(output_dir, recursive = TRUE)
+  }
+
+  write.csv(experiment$summary, file.path(output_dir, "experiment_summary.csv"), row.names = FALSE)
+  invisible(output_dir)
+}
+
 run_calibration <- function(lambda = 1, iterations = 800, step_size = 0.12, seed = 123) {
-  initial_vector <- weights_to_vector(default_weights)
-  baseline <- evaluate_weights(weights, lambda = lambda)
+  initial_vector <- c(
+    weights_to_vector(default_weights),
+    tolerances_to_vector(default_tolerances),
+    bias_to_vector(default_bias)
+  )
+  baseline <- evaluate_weights(weights, tolerances_df = tolerances, bias_df = bias, lambda = lambda)
 
   fit <- random_search_optimize(
     initial_vector = initial_vector,
     anchors = anchor_profiles,
     lambda = lambda,
-    template = default_weights,
+    weight_template = default_weights,
+    tolerance_template = default_tolerances,
+    bias_template = default_bias,
     iterations = iterations,
     step_size = step_size,
     seed = seed
   )
 
-  tuned_weights <- weights_from_vector(fit$par, template = default_weights)
-  tuned <- evaluate_weights(tuned_weights, lambda = lambda)
+  weight_length <- length(weights_to_vector(default_weights))
+  tolerance_length <- length(tolerances_to_vector(default_tolerances))
+  tuned_weights <- weights_from_vector(fit$par[seq_len(weight_length)], template = default_weights)
+  tuned_tolerances <- tolerances_from_vector(fit$par[weight_length + seq_len(tolerance_length)], template = default_tolerances)
+  tuned_bias <- bias_from_vector(fit$par[-seq_len(weight_length + tolerance_length)], template = default_bias)
+  tuned <- evaluate_weights(tuned_weights, tolerances_df = tuned_tolerances, bias_df = tuned_bias, lambda = lambda)
 
   list(
     baseline = baseline,
     tuned = tuned,
     tuned_weights = tuned_weights,
+    tuned_tolerances = tuned_tolerances,
+    tuned_bias = tuned_bias,
     optim = fit
   )
 }
@@ -232,6 +372,12 @@ print_calibration_report <- function(result, lambda = 1, include_grid = TRUE) {
 
   cat("Oppdaterte vekter:\n")
   print(result$tuned_weights, row.names = FALSE)
+  cat("\n")
+  cat("Oppdaterte toleranser:\n")
+  print(result$tuned_tolerances, row.names = FALSE)
+  cat("\n")
+  cat("Oppdaterte bias:\n")
+  print(result$tuned_bias, row.names = FALSE)
   cat("\n")
 
   if (isTRUE(include_grid)) {
