@@ -50,3 +50,8 @@ Hvis du vil ta i bruk de tunede vektene i appen, kan du kopiere [calibration_out
 Vektene i modellen er en pedagogisk faglig forenkling, ikke en offisiell konverteringsnøkkel mellom ICD-10 og ICD-11.
 
 Modellen er kun et pedagogisk verktøy og skal ikke brukes diagnostisk.
+
+## Release-historikk
+
+- Se [NEWS.md](/Users/roffe/Documents/prosjekter/R/pf/NEWS.md) for kort release-historikk.
+- Se [.github/RELEASE_TEMPLATE.md](/Users/roffe/Documents/prosjekter/R/pf/.github/RELEASE_TEMPLATE.md) som mal for neste release.
