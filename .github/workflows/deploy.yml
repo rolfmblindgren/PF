@@ -31,8 +31,8 @@ jobs:
             --chmod=D775,F664 \
             --exclude '.git' \
             --exclude '.env' \
-            deployshiny@mysql.grendel.no:/srv/shiny-server/${{ env.APP_NAME }}/
+            deployshiny@dnsgrendel.grendel.no:/srv/shiny-server/${{ env.APP_NAME }}/
 
       - name: Restart Shiny Server
         run: |
-          ssh deployshiny@mysql.grendel.no "sudo systemctl restart shiny-server"
+          ssh deployshiny@dnsgrendel.grendel.no "sudo systemctl restart shiny-server"
