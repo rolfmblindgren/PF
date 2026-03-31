@@ -22,7 +22,10 @@ anchor_profiles <- do.call(
     data.frame(profile_id = "dramatic_but_orderly", neg = 4, det = 0, ant = 2, dis = 1, psy = 0, expected_top1 = "F60.4", acceptable_top3 = "F60.4|F60.3|F60.0", forbidden_top1 = "F60.5", weight = 2, stringsAsFactors = FALSE),
     data.frame(profile_id = "mixed_externalizing", neg = 3, det = 1, ant = 5, dis = 5, psy = 0, expected_top1 = NA, acceptable_top3 = "F60.3|F60.4|F60.2", forbidden_top1 = "F60.5", weight = 2, stringsAsFactors = FALSE),
     data.frame(profile_id = "flat_profile", neg = 3, det = 3, ant = 3, dis = 3, psy = 3, expected_top1 = NA, acceptable_top3 = "F60.3|F60.4|F60.5", forbidden_top1 = "F21", weight = 3, stringsAsFactors = FALSE),
-    data.frame(profile_id = "midrange_without_psychosis", neg = 3, det = 3, ant = 3, dis = 3, psy = 1, expected_top1 = NA, acceptable_top3 = "F60.3|F60.4|F60.5", forbidden_top1 = "F21", weight = 3, stringsAsFactors = FALSE)
+    data.frame(profile_id = "midrange_without_psychosis", neg = 3, det = 3, ant = 3, dis = 3, psy = 1, expected_top1 = NA, acceptable_top3 = "F60.3|F60.4|F60.5", forbidden_top1 = "F21", weight = 3, stringsAsFactors = FALSE),
+    data.frame(profile_id = "low_psy_schizoid_leaning", neg = 0, det = 1, ant = 0, dis = 0, psy = 1, expected_top1 = "F60.1", acceptable_top3 = "F60.1|F60.6|F60.7", forbidden_top1 = "F21", weight = 3, stringsAsFactors = FALSE),
+    data.frame(profile_id = "low_psy_dependent_leaning", neg = 0, det = 0, ant = 0, dis = 0, psy = 1, expected_top1 = "F60.7", acceptable_top3 = "F60.7|F60.1|F60.6", forbidden_top1 = "F21", weight = 3, stringsAsFactors = FALSE),
+    data.frame(profile_id = "high_psy_introverted_schizotyp", neg = 2, det = 5, ant = 0, dis = 0, psy = 6, expected_top1 = "F21", acceptable_top3 = "F21|F60.1|F60.6", forbidden_top1 = "F60.7", weight = 2, stringsAsFactors = FALSE)
   )
 )
 
@@ -141,6 +144,9 @@ random_search_optimize <- function(
   seed = 123
 ) {
   set.seed(seed)
+  weight_length <- length(weights_to_vector(weight_template))
+  tolerance_length <- length(tolerances_to_vector(tolerance_template))
+  bias_length <- length(bias_to_vector(bias_template))
 
   best_vector <- initial_vector
   best_value <- objective_function(
@@ -154,7 +160,15 @@ random_search_optimize <- function(
 
   for (i in seq_len(iterations)) {
     candidate <- best_vector + rnorm(length(best_vector), mean = 0, sd = step_size)
-    candidate <- pmin(pmax(candidate, 0.02), 1)
+    candidate[seq_len(weight_length)] <- pmin(pmax(candidate[seq_len(weight_length)], 0.02), 1)
+    candidate[weight_length + seq_len(tolerance_length)] <- pmin(
+      pmax(candidate[weight_length + seq_len(tolerance_length)], 0.02),
+      1
+    )
+    candidate[-seq_len(weight_length + tolerance_length)] <- pmin(
+      pmax(candidate[-seq_len(weight_length + tolerance_length)], -0.30),
+      0.30
+    )
     candidate_value <- objective_function(
       candidate,
       anchors = anchors,
@@ -342,6 +356,61 @@ run_calibration <- function(lambda = 1, iterations = 800, step_size = 0.12, seed
   tuned_tolerances <- tolerances_from_vector(fit$par[weight_length + seq_len(tolerance_length)], template = default_tolerances)
   tuned_bias <- bias_from_vector(fit$par[-seq_len(weight_length + tolerance_length)], template = default_bias)
   tuned <- evaluate_weights(tuned_weights, tolerances_df = tuned_tolerances, bias_df = tuned_bias, lambda = lambda)
+
+  list(
+    baseline = baseline,
+    tuned = tuned,
+    tuned_weights = tuned_weights,
+    tuned_tolerances = tuned_tolerances,
+    tuned_bias = tuned_bias,
+    optim = fit
+  )
+}
+
+run_local_tuning <- function(
+  lambda = 1,
+  iterations = 1200,
+  step_size = 0.02,
+  seed = 123,
+  initial_weights = weights,
+  initial_tolerances = tolerances,
+  initial_bias = bias
+) {
+  initial_vector <- c(
+    weights_to_vector(initial_weights),
+    tolerances_to_vector(initial_tolerances),
+    bias_to_vector(initial_bias)
+  )
+  baseline <- evaluate_weights(
+    weights_df = initial_weights,
+    tolerances_df = initial_tolerances,
+    bias_df = initial_bias,
+    lambda = lambda
+  )
+
+  fit <- random_search_optimize(
+    initial_vector = initial_vector,
+    anchors = anchor_profiles,
+    lambda = lambda,
+    weight_template = initial_weights,
+    tolerance_template = initial_tolerances,
+    bias_template = initial_bias,
+    iterations = iterations,
+    step_size = step_size,
+    seed = seed
+  )
+
+  weight_length <- length(weights_to_vector(initial_weights))
+  tolerance_length <- length(tolerances_to_vector(initial_tolerances))
+  tuned_weights <- weights_from_vector(fit$par[seq_len(weight_length)], template = initial_weights)
+  tuned_tolerances <- tolerances_from_vector(fit$par[weight_length + seq_len(tolerance_length)], template = initial_tolerances)
+  tuned_bias <- bias_from_vector(fit$par[-seq_len(weight_length + tolerance_length)], template = initial_bias)
+  tuned <- evaluate_weights(
+    weights_df = tuned_weights,
+    tolerances_df = tuned_tolerances,
+    bias_df = tuned_bias,
+    lambda = lambda
+  )
 
   list(
     baseline = baseline,

@@ -1,10 +1,10 @@
 "kode","diagnose","bias"
-"F21","Schizotyp lidelse",0.02
-"F60.0","Paranoid personlighetsforstyrrelse",0.02
-"F60.1","Schizoid personlighetsforstyrrelse",0.02
-"F60.2","Dyssosial personlighetsforstyrrelse",0.02
-"F60.3","Emosjonelt ustabil personlighetsforstyrrelse (borderline-type)",0.0214356861098148
-"F60.4","Histrionisk personlighetsforstyrrelse",0.02
-"F60.5","Tvangspreget personlighetsforstyrrelse",0.0297865782589423
-"F60.6","Engstelig (unnvikende) personlighetsforstyrrelse",0.02
-"F60.7","Avhengig personlighetsforstyrrelse",0.02
+"F21","Schizotyp lidelse",-0.0571920358752868
+"F60.0","Paranoid personlighetsforstyrrelse",0.0188095995751609
+"F60.1","Schizoid personlighetsforstyrrelse",0.0525046212486299
+"F60.2","Dyssosial personlighetsforstyrrelse",0.0128774296876647
+"F60.3","Emosjonelt ustabil personlighetsforstyrrelse (borderline-type)",-0.00398865010487265
+"F60.4","Histrionisk personlighetsforstyrrelse",0.0180429535394006
+"F60.5","Tvangspreget personlighetsforstyrrelse",0.0282655336150969
+"F60.6","Engstelig (unnvikende) personlighetsforstyrrelse",0.0373450797791532
+"F60.7","Avhengig personlighetsforstyrrelse",0.0245452752880026

@@ -38,6 +38,20 @@ Skriptet gjør dette:
 
 Hvis du vil ta i bruk de tunede vektene i appen, kan du kopiere [calibration_outputs/tuned_weights.csv](/Users/roffe/Documents/prosjekter/R/pf/calibration_outputs/tuned_weights.csv) til [tuned_weights.csv](/Users/roffe/Documents/prosjekter/R/pf/tuned_weights.csv). Appen leser denne filen automatisk hvis den finnes.
 
+## Grid-rapport
+
+Det ligger også et eget skript for å gå gjennom hele `7^5`-gridet og peke ut profiler som ser kontraintuitive ut:
+
+```sh
+Rscript grid_report.R
+```
+
+Skriptet skriver blant annet:
+
+- [calibration_outputs/grid_report.md](/Users/roffe/Documents/prosjekter/R/pf/calibration_outputs/grid_report.md)
+- [calibration_outputs/grid_flag_summary.csv](/Users/roffe/Documents/prosjekter/R/pf/calibration_outputs/grid_flag_summary.csv)
+- [calibration_outputs/grid_flagged_profiles.csv](/Users/roffe/Documents/prosjekter/R/pf/calibration_outputs/grid_flagged_profiles.csv)
+
 ## Hva appen gjør
 
 - Brukeren setter fem trekkdimensjoner på skalaen 0-6.
