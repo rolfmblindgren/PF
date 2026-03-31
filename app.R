@@ -71,6 +71,14 @@ ui <- fluidPage(
           operatingSystem = "Any",
           url = "https://shiny.grendel.no/PF/",
           inLanguage = c("no", "nn", "en"),
+          author = list(
+            "@type" = "Person",
+            name = "Rolf Marvin Bøe Lindgren"
+          ),
+          publisher = list(
+            "@type" = "Organization",
+            name = "Grendel evidensbasert psykologi AS"
+          ),
           description = paste(
             "Interaktiv Shiny-app som pedagogisk viser hvordan",
             "ICD-11-lignende trekkprofiler kan ligne på",
