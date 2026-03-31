@@ -63,7 +63,6 @@ ui <- fluidPage(
 server <- function(input, output, session) {
   detected_lang <- reactiveVal("no")
   user_selected_lang <- reactiveVal(NULL)
-  browser_lang_applied <- reactiveVal(FALSE)
 
   observeEvent(input$browser_lang, {
     browser_lang <- tolower(input$browser_lang %||% "")
@@ -75,15 +74,13 @@ server <- function(input, output, session) {
 
     detected_lang(initial_lang)
 
-    if (!browser_lang_applied() && is.null(user_selected_lang())) {
+    if (is.null(user_selected_lang())) {
       updateSelectizeInput(session, "lang", selected = initial_lang)
     }
-
-    browser_lang_applied(TRUE)
   }, ignoreInit = TRUE)
 
   observeEvent(input$lang, {
-    if (browser_lang_applied() && !is.null(input$lang) && nzchar(input$lang)) {
+    if (!is.null(input$lang) && nzchar(input$lang)) {
       user_selected_lang(input$lang)
     }
   }, ignoreInit = TRUE)
