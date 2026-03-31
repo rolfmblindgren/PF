@@ -19,6 +19,7 @@ tr <- function(key, session = getDefaultReactiveDomain()) {
 ui <- fluidPage(
   usei18n(i18n),
   tags$head(
+    tags$script(src = "custom.js"),
     tags$style(HTML("
       .language-switcher {
         position: relative;
@@ -36,18 +37,46 @@ ui <- fluidPage(
   tags$div(
     class = "language-switcher",
     style = "display: flex; justify-content: flex-end; margin-bottom: 12px;",
-    selectInput(
+    selectizeInput(
       "lang",
       label = NULL,
-      choices = c("Bokmal" = "no", "Nynorsk" = "nn", "English" = "en"),
+      choices = c("no", "nn", "en"),
       selected = "no",
-      width = "180px"
+      width = "180px",
+      options = list(
+        render = I("
+          {
+            option: function(item, escape) {
+              return Shiny.renderFlagOption(item);
+            },
+            item: function(item, escape) {
+              return Shiny.renderFlagOption(item);
+            }
+          }
+        ")
+      )
     )
   ),
   uiOutput("app_ui")
 )
 
 server <- function(input, output, session) {
+  browser_lang_applied <- reactiveVal(FALSE)
+
+  observeEvent(input$browser_lang, {
+    if (browser_lang_applied()) {
+      return()
+    }
+
+    browser_lang <- tolower(input$browser_lang %||% "")
+
+    if (startsWith(browser_lang, "en")) {
+      updateSelectizeInput(session, "lang", selected = "en")
+    }
+
+    browser_lang_applied(TRUE)
+  }, ignoreInit = TRUE)
+
   current_lang <- reactive({
     input$lang %||% "no"
   })
