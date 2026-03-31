@@ -2,6 +2,8 @@
 
 Dette er en liten Shiny-app som fungerer som et pedagogisk overgangsverktøy mellom personlighetsforstyrrelser i ICD-10 og en trekkbasert modell som ligner ICD-11.
 
+Tanken er å hjelpe brukere som allerede kjenner de tradisjonelle PF-typene, men som synes trekkspråket i ICD-11 er vanskeligere å lære. Appen viser hvilke kjente ICD-10-typer en gitt trekkprofil ligner mest på, og gjør samtidig synlig hvor mye de gamle typene overlapper.
+
 ## Krav
 
 - R
@@ -58,6 +60,12 @@ Skriptet skriver blant annet:
 - Appen bruker disse som en ICD-11-lignende trekkprofil.
 - Modellen beregner en profilsamsvarsskår for hver ICD-10-type.
 - `lambda` justerer hvor sterk kontrasten blir mellom profiler som ellers ligger nær hverandre.
+
+## Pedagogisk poeng
+
+- Appen er ment som en læringsbro fra kjente ICD-10-typer til ICD-11-lignende trekk.
+- Den viktigste gevinsten er ofte ikke å peke ut én “riktig” type, men å vise hvilke typer som ligger nær hverandre.
+- Det gjør det lettere å se hvor personlighetsforstyrrelser overlapper, og hvilke diagnostiske spørsmål trekkmodellen rydder bedre opp i enn en ren typeforståelse.
 
 ## Viktig
 

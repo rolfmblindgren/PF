@@ -25,6 +25,7 @@ ui <- navbarPage(
       mainPanel(
         h4("ICD-10-profiler rangert etter trekkmatch"),
         p("Velg en ICD-11-lignende trekkprofil og se hvilke ICD-10-personlighetsforstyrrelsestyper den ligner mest på."),
+        p("Poenget er ikke bare å finne én nærmeste type, men også å synliggjøre hvor mye de gamle typene overlapper og hvor trekkmodellen rydder i slike grensetilfeller."),
         tableOutput("ranking"),
         plotOutput("plot", height = "400px")
       )
@@ -39,12 +40,13 @@ ui <- navbarPage(
       column(8, offset = 1,
         h3("Hva viser modellen?"),
         p("Appen er laget som et pedagogisk overgangsverktøy mellom personlighetsforstyrrelser i ICD-10 og trekkmodellen i ICD-11."),
-        p("Du angir nivået på fem trekkdimensjoner, og modellen beregner hvor godt denne trekkprofilen matcher profiler som er knyttet til de tradisjonelle ICD-10-typene."),
+        p("Motivasjonen er å hjelpe brukere som kjenner de tradisjonelle ICD-10-typene bedre enn trekkspråket i ICD-11. Du angir nivået på fem trekkdimensjoner, og modellen viser hvilke kjente typer en slik profil oftest ville minne om."),
         tags$ul(
           tags$li("Inndata: en trekkprofil som ligner ICD-11-formatet."),
           tags$li("Utdata: en rangering av ICD-10-typer etter profilsamsvar."),
           tags$li("Skåren uttrykker grad av match i modellen, ikke diagnostisk sannsynlighet.")
         ),
+        p("Den viktigste pedagogiske gevinsten er ofte ikke topp-1 alene, men at flere nærliggende typer kommer opp samtidig. Det viser hvor overlappende personlighetsforstyrrelser kan være, og hvilke diagnostiske alternativer trekkmodellen hjelper til med å rydde opp i."),
         br(),
         h3("Hva betyr λ (lambda)?"),
         p("Lambda er en innstilling som styrer hvor følsomt systemet er for forskjeller mellom trekkprofiler."),
@@ -62,6 +64,7 @@ ui <- navbarPage(
         br(),
         h3("Viktig forbehold"),
         p("Vektene i modellen er en pedagogisk faglig forenkling av forholdet mellom ICD-10-typer og ICD-11-trekk, ikke en offisiell konverteringsnøkkel."),
+        p("Modellen bør derfor forstås som en læringsbro: Hvis en klient har disse trekkene, hvilke kjente ICD-10-typer ville man lett tenke på, og hvilke overlapp eller differensialdiagnostiske spørsmål blir tydeligere når man ser profilen som trekk i stedet for bare type."),
         p(em("Modellen er kun et pedagogisk verktøy og skal ikke brukes diagnostisk."))
       )
     )
