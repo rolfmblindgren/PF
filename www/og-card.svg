@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Overgang fra ICD-10-typer til ICD-11-trekk</title>
+  <desc id="desc">Delingsillustrasjon for den interaktive Shiny-appen som viser sammenhengen mellom ICD-10-typer og ICD-11-lignende trekkprofiler.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f3efe4"/>
+      <stop offset="100%" stop-color="#d8e7e1"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#143642"/>
+      <stop offset="100%" stop-color="#315c67"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1060" cy="100" r="150" fill="#c06c4e" opacity="0.18"/>
+  <circle cx="140" cy="560" r="180" fill="#8aa399" opacity="0.20"/>
+
+  <rect x="58" y="54" width="1084" height="522" rx="28" fill="#fffdfa" opacity="0.96"/>
+  <rect x="90" y="88" width="420" height="454" rx="24" fill="url(#panel)"/>
+
+  <text x="128" y="150" font-family="Georgia, serif" font-size="30" fill="#f7f2e8">Pedagogisk overgangsverktøy</text>
+  <text x="128" y="230" font-family="Georgia, serif" font-size="62" font-weight="700" fill="#ffffff">ICD-10</text>
+  <text x="128" y="300" font-family="Georgia, serif" font-size="34" fill="#dbe7e2">til</text>
+  <text x="128" y="380" font-family="Georgia, serif" font-size="62" font-weight="700" fill="#ffffff">ICD-11-trekk</text>
+
+  <text x="560" y="160" font-family="Helvetica, Arial, sans-serif" font-size="48" font-weight="700" fill="#18343d">Overgang fra</text>
+  <text x="560" y="220" font-family="Helvetica, Arial, sans-serif" font-size="48" font-weight="700" fill="#18343d">ICD-10-typer</text>
+  <text x="560" y="280" font-family="Helvetica, Arial, sans-serif" font-size="48" font-weight="700" fill="#18343d">til ICD-11-trekk</text>
+
+  <text x="560" y="360" font-family="Helvetica, Arial, sans-serif" font-size="28" fill="#38515a">
+    Utforsk hvordan trekkprofiler samsvarer
+  </text>
+  <text x="560" y="400" font-family="Helvetica, Arial, sans-serif" font-size="28" fill="#38515a">
+    med kjente ICD-10-personlighetsforstyrrelser.
+  </text>
+  <text x="560" y="470" font-family="Helvetica, Arial, sans-serif" font-size="24" fill="#6a7f86">
+    shiny.grendel.no/PF/
+  </text>
+
+  <g transform="translate(560 500)">
+    <rect x="0" y="0" width="120" height="14" rx="7" fill="#c06c4e"/>
+    <rect x="0" y="26" width="220" height="14" rx="7" fill="#8aa399"/>
+    <rect x="0" y="52" width="170" height="14" rx="7" fill="#315c67"/>
+    <rect x="0" y="78" width="260" height="14" rx="7" fill="#d8b26e"/>
+  </g>
+</svg>

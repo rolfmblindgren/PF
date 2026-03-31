@@ -48,6 +48,13 @@ ui <- fluidPage(
     tags$meta(property = "og:url", content = "https://shiny.grendel.no/PF/"),
     tags$meta(property = "og:site_name", content = "shiny.grendel.no"),
     tags$meta(property = "og:locale", content = "nb_NO"),
+    tags$meta(property = "og:image", content = "https://shiny.grendel.no/PF/og-card.svg"),
+    tags$meta(property = "og:image:width", content = "1200"),
+    tags$meta(property = "og:image:height", content = "630"),
+    tags$meta(
+      property = "og:image:alt",
+      content = "Overgang fra ICD-10-typer til ICD-11-trekk"
+    ),
     tags$meta(name = "twitter:card", content = "summary"),
     tags$meta(
       name = "twitter:title",
@@ -60,6 +67,7 @@ ui <- fluidPage(
         "og ICD-11-lignende trekkprofiler."
       )
     ),
+    tags$meta(name = "twitter:image", content = "https://shiny.grendel.no/PF/og-card.svg"),
     tags$script(
       type = "application/ld+json",
       HTML(jsonlite::toJSON(
