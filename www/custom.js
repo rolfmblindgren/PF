@@ -1,4 +1,6 @@
-Shiny.renderFlagOption = function(item) {
+window.Shiny = window.Shiny || {};
+
+window.Shiny.renderFlagOption = function(item) {
   const lang = item.value;
 
   const flags = {
@@ -24,9 +26,40 @@ Shiny.renderFlagOption = function(item) {
   `;
 };
 
-document.addEventListener("shiny:connected", function() {
+function sendBrowserLanguageToShiny() {
+  if (!window.Shiny || typeof window.Shiny.setInputValue !== "function") {
+    return false;
+  }
+
   const languages = navigator.languages || [navigator.language || ""];
   const browserLang = (languages[0] || "").toLowerCase();
 
-  Shiny.setInputValue("browser_lang", browserLang, { priority: "event" });
+  window.Shiny.setInputValue("custom_js_loaded", true, { priority: "event" });
+  window.Shiny.setInputValue("browser_lang", browserLang, { priority: "event" });
+  window.Shiny.setInputValue("browser_langs", languages.join(", "), { priority: "event" });
+  return true;
+}
+
+function scheduleBrowserLanguageRetry(maxAttempts = 20, delayMs = 250) {
+  let attempts = 0;
+
+  function trySend() {
+    attempts += 1;
+
+    if (sendBrowserLanguageToShiny() || attempts >= maxAttempts) {
+      return;
+    }
+
+    window.setTimeout(trySend, delayMs);
+  }
+
+  trySend();
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  scheduleBrowserLanguageRetry();
+});
+
+document.addEventListener("shiny:connected", function() {
+  scheduleBrowserLanguageRetry();
 });

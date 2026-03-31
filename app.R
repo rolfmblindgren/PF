@@ -61,24 +61,35 @@ ui <- fluidPage(
 )
 
 server <- function(input, output, session) {
+  detected_lang <- reactiveVal("no")
+  user_selected_lang <- reactiveVal(NULL)
   browser_lang_applied <- reactiveVal(FALSE)
 
   observeEvent(input$browser_lang, {
-    if (browser_lang_applied()) {
-      return()
-    }
-
     browser_lang <- tolower(input$browser_lang %||% "")
+    initial_lang <- "no"
 
     if (startsWith(browser_lang, "en")) {
-      updateSelectizeInput(session, "lang", selected = "en")
+      initial_lang <- "en"
+    }
+
+    detected_lang(initial_lang)
+
+    if (!browser_lang_applied() && is.null(user_selected_lang())) {
+      updateSelectizeInput(session, "lang", selected = initial_lang)
     }
 
     browser_lang_applied(TRUE)
   }, ignoreInit = TRUE)
 
+  observeEvent(input$lang, {
+    if (browser_lang_applied() && !is.null(input$lang) && nzchar(input$lang)) {
+      user_selected_lang(input$lang)
+    }
+  }, ignoreInit = TRUE)
+
   current_lang <- reactive({
-    input$lang %||% "no"
+    user_selected_lang() %||% detected_lang()
   })
 
   observeEvent(current_lang(), {
@@ -108,7 +119,7 @@ server <- function(input, output, session) {
   })
 
   output$app_ui <- renderUI({
-    current_lang()
+    lang <- current_lang()
 
     navbarPage(
       tr("app_title", session = session),
@@ -195,6 +206,7 @@ server <- function(input, output, session) {
       theme_minimal(base_size = 13) +
       scale_fill_gradient(low = "steelblue", high = "lightgrey", guide = "none")
   })
+
 }
 
 shinyApp(ui, server)
