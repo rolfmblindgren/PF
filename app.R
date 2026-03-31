@@ -19,6 +19,69 @@ tr <- function(key, session = getDefaultReactiveDomain()) {
 ui <- fluidPage(
   usei18n(i18n),
   tags$head(
+    tags$title("Overgang fra ICD-10-typer til ICD-11-trekk"),
+    tags$meta(
+      name = "description",
+      content = paste(
+        "Interaktiv Shiny-app som viser hvordan ICD-11-lignende trekkprofiler",
+        "kan ligne på ICD-10-personlighetsforstyrrelsestyper.",
+        "Laget som et pedagogisk overgangsverktøy, ikke for diagnostisk bruk."
+      )
+    ),
+    tags$meta(
+      name = "robots",
+      content = "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"
+    ),
+    tags$link(rel = "canonical", href = "https://shiny.grendel.no/PF/"),
+    tags$meta(property = "og:type", content = "website"),
+    tags$meta(
+      property = "og:title",
+      content = "Overgang fra ICD-10-typer til ICD-11-trekk"
+    ),
+    tags$meta(
+      property = "og:description",
+      content = paste(
+        "Utforsk hvordan ICD-11-lignende trekkprofiler samsvarer med kjente",
+        "ICD-10-typer i en interaktiv, pedagogisk Shiny-app."
+      )
+    ),
+    tags$meta(property = "og:url", content = "https://shiny.grendel.no/PF/"),
+    tags$meta(property = "og:site_name", content = "shiny.grendel.no"),
+    tags$meta(property = "og:locale", content = "nb_NO"),
+    tags$meta(name = "twitter:card", content = "summary"),
+    tags$meta(
+      name = "twitter:title",
+      content = "Overgang fra ICD-10-typer til ICD-11-trekk"
+    ),
+    tags$meta(
+      name = "twitter:description",
+      content = paste(
+        "Interaktiv app for å utforske sammenhengen mellom ICD-10-typer",
+        "og ICD-11-lignende trekkprofiler."
+      )
+    ),
+    tags$script(
+      type = "application/ld+json",
+      HTML(jsonlite::toJSON(
+        list(
+          "@context" = "https://schema.org",
+          "@type" = "WebApplication",
+          name = "Overgang fra ICD-10-typer til ICD-11-trekk",
+          applicationCategory = "MedicalWebApplication",
+          operatingSystem = "Any",
+          url = "https://shiny.grendel.no/PF/",
+          inLanguage = c("no", "nn", "en"),
+          description = paste(
+            "Interaktiv Shiny-app som pedagogisk viser hvordan",
+            "ICD-11-lignende trekkprofiler kan ligne på",
+            "ICD-10-personlighetsforstyrrelsestyper."
+          ),
+          educationalUse = "Pedagogisk overgangsverktøy",
+          disclaimer = "Ikke for diagnostisk bruk."
+        ),
+        auto_unbox = TRUE
+      ))
+    ),
     tags$script(src = "custom.js"),
     tags$style(HTML("
       .language-switcher {
