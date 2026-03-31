@@ -7,7 +7,7 @@ Tanken er å hjelpe brukere som allerede kjenner de tradisjonelle PF-typene, men
 ## Krav
 
 - R
-- Pakkene `shiny`, `dplyr` og `ggplot2`
+- Pakkene `shiny`, `dplyr`, `ggplot2` og `shiny.i18n`
 
 ## Start appen
 
