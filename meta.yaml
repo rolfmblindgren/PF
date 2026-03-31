@@ -1,0 +1,22 @@
+title: "Overgang fra ICD-10-typer til ICD-11-trekk"
+description: "Interaktiv Shiny-app som viser hvordan ICD-11-lignende trekkprofiler kan ligne på ICD-10-personlighetsforstyrrelsestyper. Laget som et pedagogisk overgangsverktøy, ikke for diagnostisk bruk."
+url: "https://shiny.grendel.no/PF/"
+image: "https://shiny.grendel.no/PF/og-card.svg"
+image_width: 1200
+image_height: 630
+site_name: "shiny.grendel.no"
+locale: "nb_NO"
+image_alt: "Overgang fra ICD-10-typer til ICD-11-trekk"
+twitter_card: "summary_large_image"
+twitter_image_alt: "Overgang fra ICD-10-typer til ICD-11-trekk"
+schema_type: "WebApplication"
+application_category: "MedicalWebApplication"
+operating_system: "Any"
+in_language:
+  - "no"
+  - "nn"
+  - "en"
+author_name: "Rolf Marvin Bøe Lindgren"
+publisher_name: "Grendel evidensbasert psykologi AS"
+educational_use: "Pedagogisk overgangsverktøy"
+disclaimer: "Ikke for diagnostisk bruk."
