@@ -7,7 +7,7 @@ Tanken er å hjelpe brukere som allerede kjenner de tradisjonelle PF-typene, men
 ## Krav
 
 - R
-- Pakkene `shiny`, `dplyr`, `ggplot2` og `shiny.i18n`
+- Pakkene `shiny`, `dplyr`, `ggplot2`, `shiny.i18n`, `httr`, `jsonlite` og `digest`
 
 ## Start appen
 
@@ -22,6 +22,25 @@ eller:
 ```sh
 Rscript -e "shiny::runApp()"
 ```
+
+## Stripe-donasjoner
+
+Appen kan sende brukeren til Stripe Checkout for en enkel donasjon. Dette krever minst:
+
+- `STRIPE_SECRET_KEY`
+
+Hvis du også vil registrere fullforte donasjoner robust pa serversiden, kan du starte en liten webhook-tjeneste med:
+
+- `STRIPE_WEBHOOK_SECRET`
+- valgfritt `STRIPE_DONATION_LOG_PATH` for hvor JSONL-loggen skal skrives
+
+Webhook-skriptet ligger i [scripts/stripe_webhook.R](/Users/roffe/Documents/prosjekter/R/pf/scripts/stripe_webhook.R) og kan startes slik:
+
+```sh
+Rscript scripts/stripe_webhook.R
+```
+
+Som standard lytter det pa port `8010`. Endre dette med `STRIPE_WEBHOOK_PORT` dersom du vil ha en annen port.
 
 ## Kalibrering av vekter
 

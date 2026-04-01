@@ -63,3 +63,11 @@ document.addEventListener("DOMContentLoaded", function() {
 document.addEventListener("shiny:connected", function() {
   scheduleBrowserLanguageRetry();
 });
+
+if (window.Shiny && typeof window.Shiny.addCustomMessageHandler === "function") {
+  window.Shiny.addCustomMessageHandler("redirect-to-url", function(message) {
+    if (message && message.url) {
+      window.location.href = message.url;
+    }
+  });
+}

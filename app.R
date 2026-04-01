@@ -4,6 +4,7 @@ library(dplyr)
 library(ggplot2)
 library(shiny.i18n)
 library(grendelMeta)
+library(httr)
 source("model.R", local = TRUE)
 
 i18n <- Translator$new(translation_json_path = "i18n/translation.json")
@@ -15,6 +16,62 @@ i18n$set_translation_language("no")
 
 tr <- function(key, session = getDefaultReactiveDomain()) {
   i18n$t(key, session = session)
+}
+
+default_app_url <- "https://shiny.grendel.no/PF/"
+
+build_app_url <- function(session, fallback = default_app_url) {
+  protocol <- session$clientData$url_protocol %||% ""
+  hostname <- session$clientData$url_hostname %||% ""
+  pathname <- session$clientData$url_pathname %||% ""
+  port <- session$clientData$url_port %||% ""
+
+  if (!nzchar(protocol) || !nzchar(hostname) || !nzchar(pathname)) {
+    return(fallback)
+  }
+
+  port_part <- if (nzchar(port)) paste0(":", port) else ""
+  paste0(protocol, "//", hostname, port_part, pathname)
+}
+
+create_donation_checkout_session <- function(amount_nok, success_url, cancel_url) {
+  stripe_key <- Sys.getenv("STRIPE_SECRET_KEY")
+
+  if (!nzchar(stripe_key)) {
+    stop("Missing STRIPE_SECRET_KEY")
+  }
+
+  amount_ore <- as.integer(round(amount_nok * 100))
+
+  response <- httr::POST(
+    url = "https://api.stripe.com/v1/checkout/sessions",
+    httr::authenticate(stripe_key, ""),
+    body = list(
+      "payment_method_types[0]" = "card",
+      mode = "payment",
+      "line_items[0][price_data][currency]" = "nok",
+      "line_items[0][price_data][product_data][name]" = "Stott PF",
+      "line_items[0][price_data][product_data][description]" = "Frivillig stotte til videre arbeid med PF-appen",
+      "line_items[0][price_data][unit_amount]" = amount_ore,
+      "line_items[0][quantity]" = 1,
+      "metadata[app]" = "PF",
+      "metadata[donation_amount_nok]" = format(amount_nok, trim = TRUE, scientific = FALSE),
+      "metadata[purpose]" = "donation",
+      success_url = success_url,
+      cancel_url = cancel_url,
+      submit_type = "donate"
+    ),
+    encode = "form"
+  )
+
+  content <- httr::content(response, as = "parsed", type = "application/json")
+
+  if (httr::status_code(response) >= 300 || is.null(content$url)) {
+    message_text <- content$error$message %||% "Stripe checkout session could not be created."
+    stop(message_text)
+  }
+
+  content$url
 }
 
 ui <- fluidPage(
@@ -178,7 +235,28 @@ server <- function(input, output, session) {
             p(em(tr("caveat_p3", session = session)))
           )
         )
-      )
+      ),
+
+      tabPanel(
+        tr("donate_title", session=session),
+        fluidRow(
+          column(8,offset=1,
+            h3(tr("donate_title", session = session)),
+            p(tr("donate_intro", session = session)),
+            numericInput(
+              "donation_amount",
+              tr("donate_amount", session = session),
+              value = 75,
+              min = 20,
+              step = 10
+            ),
+            actionButton("donate", tr("donate_button", session = session)),
+            p(
+              style = "margin-top: 10px; color: #666;",
+              tr("donate_note", session = session)
+            )
+)))
+
     )
   })
 
@@ -205,6 +283,47 @@ server <- function(input, output, session) {
       theme_minimal(base_size = 13) +
       scale_fill_gradient(low = "steelblue", high = "lightgrey", guide = "none")
   })
+
+  observe({
+    query <- session$clientData$url_search %||% ""
+
+    if (grepl("donation=success", query, fixed = TRUE)) {
+      showNotification(tr("donate_success", session = session), type = "message", duration = 8)
+    }
+
+    if (grepl("donation=cancel", query, fixed = TRUE)) {
+      showNotification(tr("donate_cancel", session = session), type = "warning", duration = 6)
+    }
+  })
+
+  observeEvent(input$donate, {
+    amount_nok <- input$donation_amount %||% 0
+
+    if (!is.numeric(amount_nok) || is.na(amount_nok) || amount_nok < 20) {
+      showNotification(tr("donate_invalid", session = session), type = "error")
+      return()
+    }
+
+    base_url <- build_app_url(session)
+    success_url <- paste0(base_url, "?donation=success")
+    cancel_url <- paste0(base_url, "?donation=cancel")
+
+    checkout_url <- tryCatch(
+      create_donation_checkout_session(amount_nok, success_url, cancel_url),
+      error = function(e) {
+        showNotification(
+          paste(tr("donate_error", session = session), conditionMessage(e)),
+          type = "error",
+          duration = 8
+        )
+        NULL
+      }
+    )
+
+    if (!is.null(checkout_url)) {
+      session$sendCustomMessage("redirect-to-url", list(url = checkout_url))
+    }
+  }, ignoreInit = TRUE)
 
 }
 
