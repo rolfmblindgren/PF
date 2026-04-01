@@ -7,7 +7,7 @@ Tanken er å hjelpe brukere som allerede kjenner de tradisjonelle PF-typene, men
 ## Krav
 
 - R
-- Pakkene `shiny`, `dplyr`, `ggplot2`, `shiny.i18n`, `httr`, `jsonlite` og `digest`
+- Pakkene `shiny`, `dplyr`, `ggplot2`, `shiny.i18n`, `grendelMeta` og `grendelStripe`
 
 ## Start appen
 
