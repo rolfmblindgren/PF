@@ -3,7 +3,7 @@ library(shiny)
 library(dplyr)
 library(ggplot2)
 library(shiny.i18n)
-library(grendelMeta)
+library(shinyseo)
 library(grendelStripe)
 source("model.R", local = TRUE)
 
