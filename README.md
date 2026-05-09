@@ -34,7 +34,7 @@ Hvis du også vil registrere fullforte donasjoner robust pa serversiden, kan du 
 - `STRIPE_WEBHOOK_SECRET`
 - valgfritt `STRIPE_DONATION_LOG_PATH` for hvor JSONL-loggen skal skrives
 
-Webhook-skriptet ligger i [scripts/stripe_webhook.R](/Users/roffe/Documents/prosjekter/R/pf/scripts/stripe_webhook.R) og kan startes slik:
+Webhook-skriptet ligger i [scripts/stripe_webhook.R](scripts/stripe_webhook.R) og kan startes slik:
 
 ```sh
 Rscript scripts/stripe_webhook.R
@@ -55,9 +55,9 @@ Skriptet gjør dette:
 - evaluerer dagens vekter mot et sett med ankerprofiler
 - justerer vektene automatisk med random search mot en tapsfunksjon
 - skriver ut nye vekter og en enkel oversikt over topp-1-fordeling på hele `7^5`-gridet
-- lagrer rapportfiler i [calibration_outputs](/Users/roffe/Documents/prosjekter/R/pf/calibration_outputs)
+- lagrer rapportfiler i [calibration_outputs](calibration_outputs)
 
-Hvis du vil ta i bruk de tunede vektene i appen, kan du kopiere [calibration_outputs/tuned_weights.csv](/Users/roffe/Documents/prosjekter/R/pf/calibration_outputs/tuned_weights.csv) til [tuned_weights.csv](/Users/roffe/Documents/prosjekter/R/pf/tuned_weights.csv). Appen leser denne filen automatisk hvis den finnes.
+Hvis du vil ta i bruk de tunede vektene i appen, kan du kopiere [calibration_outputs/tuned_weights.csv](calibration_outputs/tuned_weights.csv) til [tuned_weights.csv](tuned_weights.csv). Appen leser denne filen automatisk hvis den finnes.
 
 ## Grid-rapport
 
@@ -69,9 +69,9 @@ Rscript grid_report.R
 
 Skriptet skriver blant annet:
 
-- [calibration_outputs/grid_report.md](/Users/roffe/Documents/prosjekter/R/pf/calibration_outputs/grid_report.md)
-- [calibration_outputs/grid_flag_summary.csv](/Users/roffe/Documents/prosjekter/R/pf/calibration_outputs/grid_flag_summary.csv)
-- [calibration_outputs/grid_flagged_profiles.csv](/Users/roffe/Documents/prosjekter/R/pf/calibration_outputs/grid_flagged_profiles.csv)
+- [calibration_outputs/grid_report.md](calibration_outputs/grid_report.md)
+- [calibration_outputs/grid_flag_summary.csv](calibration_outputs/grid_flag_summary.csv)
+- [calibration_outputs/grid_flagged_profiles.csv](calibration_outputs/grid_flagged_profiles.csv)
 
 ## Hva appen gjør
 
@@ -94,5 +94,5 @@ Modellen er kun et pedagogisk verktøy og skal ikke brukes diagnostisk.
 
 ## Release-historikk
 
-- Se [NEWS.md](/Users/roffe/Documents/prosjekter/R/pf/NEWS.md) for kort release-historikk.
-- Se [.github/RELEASE_TEMPLATE.md](/Users/roffe/Documents/prosjekter/R/pf/.github/RELEASE_TEMPLATE.md) som mal for neste release.
+- Se [NEWS.md](NEWS.md) for kort release-historikk.
+- Se [.github/RELEASE_TEMPLATE.md](.github/RELEASE_TEMPLATE.md) som mal for neste release.
