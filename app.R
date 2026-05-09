@@ -20,6 +20,24 @@ tr <- function(key, session = getDefaultReactiveDomain()) {
 
 default_app_url <- "https://shiny.grendel.no/PF/"
 
+donation_checkout_texts <- function(lang) {
+  switch(
+    lang,
+    nn = list(
+      name = "Støtt PF",
+      description = "Frivillig støtte til vidare arbeid med PF-appen."
+    ),
+    en = list(
+      name = "Support PF",
+      description = "Voluntary support for further work on the PF app."
+    ),
+    list(
+      name = "Støtt PF",
+      description = "Frivillig støtte til videre arbeid med PF-appen."
+    )
+  )
+}
+
 ui <- fluidPage(
   social_meta("meta.yaml"),
   usei18n(i18n),
@@ -244,6 +262,7 @@ server <- function(input, output, session) {
 
   observeEvent(input$donate, {
     amount_nok <- input$donation_amount %||% 0
+    checkout_texts <- donation_checkout_texts(current_lang())
 
     if (!is.numeric(amount_nok) || is.na(amount_nok) || amount_nok < 20) {
       showNotification(tr("donate_invalid", session = session), type = "error")
@@ -259,8 +278,8 @@ server <- function(input, output, session) {
         amount_nok = amount_nok,
         success_url = success_url,
         cancel_url = cancel_url,
-        product_name = "Stott PF",
-        product_description = "Frivillig stotte til videre arbeid med PF-appen",
+        product_name = checkout_texts$name,
+        product_description = checkout_texts$description,
         metadata = list(
           app = "PF",
           donation_amount_nok = format(amount_nok, trim = TRUE, scientific = FALSE),
