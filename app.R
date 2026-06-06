@@ -3,9 +3,11 @@ library(shiny)
 library(dplyr)
 library(ggplot2)
 library(shiny.i18n)
-library(shinyseo)
+library(yaml)
 library(grendelStripe)
 source("model.R", local = TRUE)
+
+app_meta <- yaml::read_yaml("meta.yaml")
 
 i18n <- Translator$new(translation_json_path = "i18n/translation.json")
 i18n$set_translation_language("no")
@@ -18,7 +20,7 @@ tr <- function(key, session = getDefaultReactiveDomain()) {
   i18n$t(key, session = session)
 }
 
-default_app_url <- "https://shiny.grendel.no/PF/"
+default_app_url <- "https://shiny.grendel.no/PF"
 
 donation_checkout_texts <- function(lang) {
   switch(
@@ -39,7 +41,9 @@ donation_checkout_texts <- function(lang) {
 }
 
 ui <- fluidPage(
-  social_meta("meta.yaml"),
+  grendelshiny::grendelshiny_css(),
+  grendelshiny::grendelshiny_js(),
+  shinyseo::social_meta(app_meta),
   usei18n(i18n),
   tags$head(
     tags$script(src = "custom.js"),
@@ -146,7 +150,7 @@ server <- function(input, output, session) {
       tabPanel(
         tr("dashboard_tab", session = session),
         sidebarLayout(
-          sidebarPanel(
+          sidebarPanel(class = "sidebar-card",
             sliderInput("neg", tr("neg", session = session), score_range[1], score_range[2], input$neg %||% default_trait_value, step = 1),
             sliderInput("det", tr("det", session = session), score_range[1], score_range[2], input$det %||% default_trait_value, step = 1),
             sliderInput("ant", tr("ant", session = session), score_range[1], score_range[2], input$ant %||% default_trait_value, step = 1),
@@ -154,9 +158,9 @@ server <- function(input, output, session) {
             sliderInput("psy", tr("psy", session = session), score_range[1], score_range[2], input$psy %||% default_trait_value, step = 1),
             sliderInput("lambda", tr("lambda", session = session), 0.5, 3, input$lambda %||% 1, step = 0.1),
             numericInput("n_show", tr("n_show", session = session), input$n_show %||% 6, 1, nrow(weights)),
-            actionButton("reset", tr("reset", session = session))
+            actionButton("reset", tr("reset", session = session), class = "btn-primary")
           ),
-          mainPanel(
+          mainPanel(class = "main-card",
             h4(tr("ranking_title", session = session)),
             p(tr("ranking_intro", session = session)),
             p(tr("ranking_overlap", session = session)),
@@ -214,7 +218,7 @@ server <- function(input, output, session) {
               min = 20,
               step = 10
             ),
-            actionButton("donate", tr("donate_button", session = session)),
+            actionButton("donate", tr("donate_button", session = session), class = "btn-primary"),
             p(
               style = "margin-top: 10px; color: #666;",
               tr("donate_note", session = session)
