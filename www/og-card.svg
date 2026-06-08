@@ -1,47 +1,61 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
-  <title id="title">Overgang fra ICD-10-typer til ICD-11-trekk</title>
-  <desc id="desc">Delingsillustrasjon for den interaktive Shiny-appen som viser sammenhengen mellom ICD-10-typer og ICD-11-lignende trekkprofiler.</desc>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">PF</title>
+  <desc id="desc">Fra ICD-10-typer til trekk</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#f3efe4"/>
-      <stop offset="100%" stop-color="#d8e7e1"/>
+      <stop offset="0%" stop-color="#083845"/>
+      <stop offset="100%" stop-color="#091b22"/>
     </linearGradient>
     <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#143642"/>
-      <stop offset="100%" stop-color="#315c67"/>
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.08"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7debd8"/>
+      <stop offset="100%" stop-color="#58a9ff"/>
     </linearGradient>
   </defs>
-
   <rect width="1200" height="630" fill="url(#bg)"/>
-  <circle cx="1060" cy="100" r="150" fill="#c06c4e" opacity="0.18"/>
-  <circle cx="140" cy="560" r="180" fill="#8aa399" opacity="0.20"/>
-
-  <rect x="58" y="54" width="1084" height="522" rx="28" fill="#fffdfa" opacity="0.96"/>
-  <rect x="90" y="88" width="420" height="454" rx="24" fill="url(#panel)"/>
-
-  <text x="128" y="150" font-family="Georgia, serif" font-size="30" fill="#f7f2e8">Pedagogisk overgangsverktøy</text>
-  <text x="128" y="230" font-family="Georgia, serif" font-size="62" font-weight="700" fill="#ffffff">ICD-10</text>
-  <text x="128" y="300" font-family="Georgia, serif" font-size="34" fill="#dbe7e2">til</text>
-  <text x="128" y="380" font-family="Georgia, serif" font-size="62" font-weight="700" fill="#ffffff">ICD-11-trekk</text>
-
-  <text x="560" y="160" font-family="Helvetica, Arial, sans-serif" font-size="48" font-weight="700" fill="#18343d">Overgang fra</text>
-  <text x="560" y="220" font-family="Helvetica, Arial, sans-serif" font-size="48" font-weight="700" fill="#18343d">ICD-10-typer</text>
-  <text x="560" y="280" font-family="Helvetica, Arial, sans-serif" font-size="48" font-weight="700" fill="#18343d">til ICD-11-trekk</text>
-
-  <text x="560" y="360" font-family="Helvetica, Arial, sans-serif" font-size="28" fill="#38515a">
-    Utforsk hvordan trekkprofiler samsvarer
-  </text>
-  <text x="560" y="400" font-family="Helvetica, Arial, sans-serif" font-size="28" fill="#38515a">
-    med kjente ICD-10-personlighetsforstyrrelser.
-  </text>
-  <text x="560" y="470" font-family="Helvetica, Arial, sans-serif" font-size="24" fill="#6a7f86">
-    shiny.grendel.no/PF/
-  </text>
-
-  <g transform="translate(560 500)">
-    <rect x="0" y="0" width="120" height="14" rx="7" fill="#c06c4e"/>
-    <rect x="0" y="26" width="220" height="14" rx="7" fill="#8aa399"/>
-    <rect x="0" y="52" width="170" height="14" rx="7" fill="#315c67"/>
-    <rect x="0" y="78" width="260" height="14" rx="7" fill="#d8b26e"/>
+  <circle cx="1040" cy="100" r="210" fill="#7debd8" opacity="0.14"/>
+  <circle cx="960" cy="544" r="270" fill="#58a9ff" opacity="0.12"/>
+  <path d="M0 470 C180 410, 330 540, 520 486 S900 400, 1200 500 L1200 630 L0 630 Z" fill="rgba(255,255,255,0.05)"/>
+  <path d="M0 120 C160 30, 300 46, 432 92" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="2" stroke-linecap="round"/>
+  <g transform="translate(72,78)">
+    <rect x="0" y="0" width="472" height="474" rx="34" fill="url(#panel)" stroke="rgba(255,255,255,0.18)"/>
+    <rect x="28" y="28" width="188" height="34" rx="17" fill="rgba(255,255,255,0.11)" stroke="rgba(255,255,255,0.18)"/>
+    <text x="122" y="51" text-anchor="middle" fill="#effffb" font-size="14" font-weight="800" letter-spacing="1.4">PEDAGOGISK BRU</text>
+    <text x="28" y="132" fill="#f7fffd" font-size="70" font-weight="900" letter-spacing="-1.6">PF</text>
+    <text x="28" y="196" fill="#ecfffb" font-size="28" font-weight="700">Fra ICD-10-typer til trekk</text>
+    <text x="28" y="248" fill="rgba(247,255,253,0.78)" font-size="17" font-weight="500">Nok struktur til å være nyttig.</text>
+    <text x="28" y="274" fill="rgba(247,255,253,0.78)" font-size="17" font-weight="500">Litt mer ro til å lese det som faktisk betyr noe.</text>
+    <g transform="translate(28,346)">
+      <g transform="translate(28,0)"><rect x="0" y="0" rx="16" width="114" height="32" fill="rgba(255,255,255,0.09)" stroke="rgba(255,255,255,0.16)"/><text x="57" y="21" text-anchor="middle" fill="#f7fffd" font-size="14" font-weight="700" letter-spacing="0.2">ICD-11</text></g>
+      <g transform="translate(154,0)"><rect x="0" y="0" rx="16" width="114" height="32" fill="rgba(255,255,255,0.09)" stroke="rgba(255,255,255,0.16)"/><text x="57" y="21" text-anchor="middle" fill="#f7fffd" font-size="14" font-weight="700" letter-spacing="0.2">Overblikk</text></g>
+      <g transform="translate(280,0)"><rect x="0" y="0" rx="16" width="114" height="32" fill="rgba(255,255,255,0.09)" stroke="rgba(255,255,255,0.16)"/><text x="57" y="21" text-anchor="middle" fill="#f7fffd" font-size="14" font-weight="700" letter-spacing="0.2">Samsvar</text></g>
+    </g>
+  </g>
+  <g transform="translate(654,96)">
+    <rect x="0" y="0" width="474" height="438" rx="38" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.17)"/>
+    <rect x="24" y="24" width="124" height="30" rx="15" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.18)"/>
+    <text x="86" y="44" text-anchor="middle" fill="#effffb" font-size="13" font-weight="800" letter-spacing="0.9">Shiny app</text>
+    <g transform="translate(84,86)">
+      <rect x="0" y="0" width="330" height="290" rx="28" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.14)"/>
+      <text x="24" y="40" fill="#f7fffd" font-size="20" font-weight="800">Trekkprofil</text>
+      <g transform="translate(24,78)" stroke-linecap="round">
+        <line x1="0" y1="24" x2="190" y2="24" stroke="rgba(255,255,255,0.24)" stroke-width="8"/>
+        <circle cx="132" cy="24" r="12" fill="url(#accent)"/>
+        <line x1="0" y1="76" x2="190" y2="76" stroke="rgba(255,255,255,0.24)" stroke-width="8"/>
+        <circle cx="58" cy="76" r="12" fill="url(#accent)"/>
+        <line x1="0" y1="128" x2="190" y2="128" stroke="rgba(255,255,255,0.24)" stroke-width="8"/>
+        <circle cx="160" cy="128" r="12" fill="url(#accent)"/>
+        <line x1="0" y1="180" x2="190" y2="180" stroke="rgba(255,255,255,0.24)" stroke-width="8"/>
+        <circle cx="104" cy="180" r="12" fill="url(#accent)"/>
+      </g>
+      <path d="M232 70 C286 86, 294 126, 260 150 S208 200, 242 228" fill="none" stroke="rgba(125,235,216,0.8)" stroke-width="8" stroke-linecap="round"/>
+      <circle cx="232" cy="70" r="10" fill="#7debd8"/>
+      <circle cx="260" cy="150" r="10" fill="#58a9ff"/>
+      <circle cx="242" cy="228" r="10" fill="#7debd8"/>
+    </g>
   </g>
 </svg>
